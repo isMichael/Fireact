@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _path = _interopRequireDefault(require("path"));
+
 var _cors = _interopRequireDefault(require("cors"));
 
 var _morgan = _interopRequireDefault(require("morgan"));
@@ -26,7 +28,7 @@ app.use(_express.default.urlencoded({
 app.use((0, _cookieParser.default)());
 app.use((0, _cors.default)('*'));
 app.use('/v1', _index.default);
-app.use(_express.default.static(path.resolve(__dirname, '../../client', 'build')));
+app.use(_express.default.static(_path.default.resolve(__dirname, '../../client', 'build')));
 app.use(function (err, req, res, next) {
   res.status(400).json({
     error: err.stack
