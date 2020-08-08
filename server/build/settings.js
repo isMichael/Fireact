@@ -13,5 +13,5 @@ _dotenv.default.config();
 
 var connectionString = process.env.DATABASE_URL;
 exports.connectionString = connectionString;
-var googleApplicationCredentials = '../web-chat-72b52-firebase-adminsdk-v35ow-45ecac1b2e.json';
+var googleApplicationCredentials = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 exports.googleApplicationCredentials = googleApplicationCredentials;
