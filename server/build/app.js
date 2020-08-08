@@ -26,6 +26,7 @@ app.use(_express.default.urlencoded({
 app.use((0, _cookieParser.default)());
 app.use((0, _cors.default)('*'));
 app.use('/v1', _index.default);
+app.use(_express.default.static(path.resolve(__dirname, '../../client', 'build')));
 app.use(function (err, req, res, next) {
   res.status(400).json({
     error: err.stack
