@@ -2,6 +2,7 @@ client/node_modules
 
 server/node_modules
 server/.env
+server/web-chat-72b52-firebase-adminsdk-v35ow-45ecac1b2e.json
 
 yarn-error.log
 

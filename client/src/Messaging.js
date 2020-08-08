@@ -6,10 +6,11 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Container from "react-bootstrap/Container";
 import Spinner from "react-bootstrap/Spinner";
+import { onMessageListener } from "./firebaseInit";
 
 import { toast } from "react-toastify";
 
-export const Messaging = () => {
+export const Messaging = ({ token }) => {
   const [messages, setMessages] = React.useState([]);
   const [requesting, setRequesting] = React.useState(false);
 
@@ -21,6 +22,15 @@ export const Messaging = () => {
     });
   }, []);
 
+  onMessageListener()
+    .then((payload) => {
+      const { title, body } = payload.data;
+      toast.info(`${title}; ${body}`);
+    })
+    .catch((err) => {
+      toast.error(JSON.stringify(err));
+    });
+
   return (
     <Container>
       <Formik
@@ -29,11 +39,17 @@ export const Messaging = () => {
           message: "",
         }}
         onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            actions.setSubmitting(false);
-            toast.success("Submitted succesfully");
-          }, 1000);
+          axios
+            .post("/messages", { ...values, token })
+            .then((resp) => {
+              setMessages(resp.data.messages.concat(messages));
+              actions.setSubmitting(false);
+              toast.success("Submitted succesfully");
+            })
+            .catch((err) => {
+              console.log(err);
+              toast.error("There was an error saving the message");
+            });
         }}
       >
         {(prop) => {
