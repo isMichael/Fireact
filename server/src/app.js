@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors('*'));
+app.use(express.static(path.resolve(__dirname, '../../client', 'build')));
 app.use('/v1', indexRouter);
 // LAST ROUTE: All remaining requests return the React app, so it can handle routing
 // and refreshing
@@ -22,12 +23,9 @@ app.get('*', function(request, response) {
 });
 
 app.use((err, req, res, next) => {
-  res
-    .status(400)
-    .json({
-      error: err.stack,
-      path: path.resolve(__dirname, '../../client', 'build'),
-    });
+  res.status(400).json({
+    error: err.stack,
+  });
 });
 
 export default app;
