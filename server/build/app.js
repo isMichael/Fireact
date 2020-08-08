@@ -27,11 +27,16 @@ app.use(_express.default.urlencoded({
 }));
 app.use((0, _cookieParser.default)());
 app.use((0, _cors.default)('*'));
-app.use('/v1', _index.default);
-app.use(_express.default.static(_path.default.resolve(__dirname, '../../client', 'build')));
+app.use('/v1', _index.default); // LAST ROUTE: All remaining requests return the React app, so it can handle routing
+// and refreshing
+
+app.get('*', function (request, response) {
+  response.sendFile(_path.default.resolve(__dirname, '../../client/build', 'index.html'));
+});
 app.use(function (err, req, res, next) {
   res.status(400).json({
-    error: err.stack
+    error: err.stack,
+    path: _path.default.resolve(__dirname, '../../client', 'build')
   });
 });
 var _default = app;
