@@ -4,9 +4,11 @@ import logger from 'morgan';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import indexRouter from './routes/index';
+import sslRedirect from './ssl/Redirect';
 
 const app = express();
 
+app.use(sslRedirect());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

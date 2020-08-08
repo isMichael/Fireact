@@ -19,7 +19,10 @@ var _cookieParser = _interopRequireDefault(require("cookie-parser"));
 
 var _index = _interopRequireDefault(require("./routes/index"));
 
+var _Redirect = _interopRequireDefault(require("./ssl/Redirect"));
+
 var app = (0, _express.default)();
+app.use((0, _Redirect.default)());
 app.use((0, _morgan.default)('dev'));
 app.use(_express.default.json());
 app.use(_express.default.urlencoded({
@@ -27,6 +30,7 @@ app.use(_express.default.urlencoded({
 }));
 app.use((0, _cookieParser.default)());
 app.use((0, _cors.default)('*'));
+app.use(_express.default.static(_path.default.resolve(__dirname, '../../client', 'build')));
 app.use('/v1', _index.default); // LAST ROUTE: All remaining requests return the React app, so it can handle routing
 // and refreshing
 
@@ -35,8 +39,7 @@ app.get('*', function (request, response) {
 });
 app.use(function (err, req, res, next) {
   res.status(400).json({
-    error: err.stack,
-    path: _path.default.resolve(__dirname, '../../client', 'build')
+    error: err.stack
   });
 });
 var _default = app;
