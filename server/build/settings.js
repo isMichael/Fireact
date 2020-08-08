@@ -13,5 +13,5 @@ _dotenv.default.config();
 
 var connectionString = process.env.DATABASE_URL;
 exports.connectionString = connectionString;
-var googleApplicationCredentials = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+var googleApplicationCredentials = '../../google-credentials.json';
 exports.googleApplicationCredentials = googleApplicationCredentials;
