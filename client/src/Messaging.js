@@ -10,6 +10,10 @@ import { onMessageListener } from "./firebaseInit";
 
 import { toast } from "react-toastify";
 
+export const registerToken = async (token) => {
+  await axios.post("/registerToken", { token });
+};
+
 export const Messaging = ({ token }) => {
   const [messages, setMessages] = React.useState([]);
   const [requesting, setRequesting] = React.useState(false);

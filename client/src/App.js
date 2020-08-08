@@ -10,22 +10,24 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./App.scss";
-import { Messaging } from "./Messaging";
+import { Messaging, registerToken } from "./Messaging";
 import { requestFirebaseNotificationPermission } from "./firebaseInit";
 
 axios.defaults.baseURL = "https://chat-mb.herokuapp.com/v1";
 
 const App = () => {
   const [token, setToken] = React.useState("");
-  requestFirebaseNotificationPermission()
-    .then((firebaseToken) => {
-      // eslint-disable-next-line no-console
-      console.log(firebaseToken);
+
+  React.useEffect(async () => {
+    try {
+      const firebaseToken = await requestFirebaseNotificationPermission();
       setToken(firebaseToken);
-    })
-    .catch((err) => {
+      console.log(firebaseToken);
+      await registerToken(firebaseToken);
+    } catch (err) {
       console.log(err);
-    });
+    }
+  }, []);
 
   return (
     <Fragment>

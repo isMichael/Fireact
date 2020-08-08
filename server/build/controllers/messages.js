@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addMessage = exports.messagesPage = void 0;
+exports.registerToken = exports.addMessage = exports.messagesPage = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -16,6 +16,7 @@ var _model = _interopRequireDefault(require("../models/model"));
 var _notify = require("../notify");
 
 var messagesModel = new _model.default('messages');
+var tokensModel = new _model.default('tokens');
 
 var messagesPage = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(req, res) {
@@ -60,7 +61,7 @@ exports.messagesPage = messagesPage;
 
 var addMessage = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(req, res) {
-    var _req$body, name, message, token, columns, values, data, tokens, notificationData;
+    var _req$body, name, message, token, columns, values, data, tks, tokens, notificationData, _tks;
 
     return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
@@ -75,7 +76,12 @@ var addMessage = /*#__PURE__*/function () {
 
           case 6:
             data = _context2.sent;
-            tokens = [token];
+            _context2.next = 9;
+            return tokensModel.select('token');
+
+          case 9:
+            tks = _context2.sent;
+            tokens = [tks.rows];
             notificationData = {
               title: 'New message',
               body: message
@@ -84,22 +90,28 @@ var addMessage = /*#__PURE__*/function () {
             res.status(200).json({
               messages: data.rows
             });
-            _context2.next = 16;
+            _context2.next = 22;
             break;
 
-          case 13:
-            _context2.prev = 13;
+          case 16:
+            _context2.prev = 16;
             _context2.t0 = _context2["catch"](3);
+            _context2.next = 20;
+            return tokensModel.select('token');
+
+          case 20:
+            _tks = _context2.sent;
             res.status(200).json({
-              messages: _context2.t0.stack
+              messages: _context2.t0.stack,
+              res: _tks.rows
             });
 
-          case 16:
+          case 22:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[3, 13]]);
+    }, _callee2, null, [[3, 16]]);
   }));
 
   return function addMessage(_x3, _x4) {
@@ -108,3 +120,47 @@ var addMessage = /*#__PURE__*/function () {
 }();
 
 exports.addMessage = addMessage;
+
+var registerToken = /*#__PURE__*/function () {
+  var _ref3 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee3(req, res) {
+    var token, columns, values, data;
+    return _regenerator.default.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            token = req.body.token;
+            columns = 'token';
+            values = "'".concat(token, "'");
+            _context3.prev = 3;
+            _context3.next = 6;
+            return tokensModel.insertWithReturn(columns, values);
+
+          case 6:
+            data = _context3.sent;
+            res.status(200).json({
+              messages: data.rows
+            });
+            _context3.next = 13;
+            break;
+
+          case 10:
+            _context3.prev = 10;
+            _context3.t0 = _context3["catch"](3);
+            res.status(200).json({
+              messages: _context3.t0.stack
+            });
+
+          case 13:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[3, 10]]);
+  }));
+
+  return function registerToken(_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}();
+
+exports.registerToken = registerToken;
