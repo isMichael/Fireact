@@ -19,8 +19,13 @@ export const addMessage = async (req, res) => {
   const values = `'${name}', '${message}'`;
   try {
     const data = await messagesModel.insertWithReturn(columns, values);
-    const tks = await tokensModel.select('token');
-    const tokens = [tks.rows];
+    const { rows } = await tokensModel.select('token');
+
+    const tokens = [];
+    for (let { token } of rows) {
+      tokens.push(token);
+    }
+
     const notificationData = {
       title: 'New message',
       body: message,
@@ -29,7 +34,7 @@ export const addMessage = async (req, res) => {
     res.status(200).json({ messages: data.rows });
   } catch (err) {
     const tks = await tokensModel.select('token');
-    res.status(200).json({ messages: err.stack, res: tks.rows });
+    res.status(200).json({ messages: err.stack });
   }
 };
 

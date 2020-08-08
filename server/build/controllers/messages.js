@@ -15,6 +15,12 @@ var _model = _interopRequireDefault(require("../models/model"));
 
 var _notify = require("../notify");
 
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 var messagesModel = new _model.default('messages');
 var tokensModel = new _model.default('tokens');
 
@@ -61,7 +67,7 @@ exports.messagesPage = messagesPage;
 
 var addMessage = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(req, res) {
-    var _req$body, name, message, token, columns, values, data, tks, tokens, notificationData, _tks;
+    var _req$body, name, message, token, columns, values, data, _yield$tokensModel$se, rows, tokens, _iterator, _step, _token, notificationData, tks;
 
     return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
@@ -80,8 +86,22 @@ var addMessage = /*#__PURE__*/function () {
             return tokensModel.select('token');
 
           case 9:
-            tks = _context2.sent;
-            tokens = [tks.rows];
+            _yield$tokensModel$se = _context2.sent;
+            rows = _yield$tokensModel$se.rows;
+            tokens = [];
+            _iterator = _createForOfIteratorHelper(rows);
+
+            try {
+              for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                _token = _step.value.token;
+                tokens.push(_token);
+              }
+            } catch (err) {
+              _iterator.e(err);
+            } finally {
+              _iterator.f();
+            }
+
             notificationData = {
               title: 'New message',
               body: message
@@ -90,28 +110,27 @@ var addMessage = /*#__PURE__*/function () {
             res.status(200).json({
               messages: data.rows
             });
-            _context2.next = 22;
+            _context2.next = 25;
             break;
 
-          case 16:
-            _context2.prev = 16;
+          case 19:
+            _context2.prev = 19;
             _context2.t0 = _context2["catch"](3);
-            _context2.next = 20;
+            _context2.next = 23;
             return tokensModel.select('token');
 
-          case 20:
-            _tks = _context2.sent;
+          case 23:
+            tks = _context2.sent;
             res.status(200).json({
-              messages: _context2.t0.stack,
-              res: _tks.rows
+              messages: _context2.t0.stack
             });
 
-          case 22:
+          case 25:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[3, 16]]);
+    }, _callee2, null, [[3, 19]]);
   }));
 
   return function addMessage(_x3, _x4) {
