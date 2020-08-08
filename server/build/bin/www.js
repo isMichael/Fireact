@@ -37,15 +37,15 @@ var normalizePort = function normalizePort(val) {
  */
 
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '5000');
 
-_app["default"].set('port', port);
+_app.default.set('port', port);
 /**
  * Create HTTP server.
  */
 
 
-var server = _http["default"].createServer(_app["default"]);
+var server = _http.default.createServer(_app.default);
 /**
  * Event listener for HTTP server "error" event.
  */
@@ -81,7 +81,7 @@ var onError = function onError(error) {
 var onListening = function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string' ? "pipe ".concat(addr) : "port ".concat(addr.port);
-  (0, _debug["default"])("Listening on ".concat(bind));
+  (0, _debug.default)("Listening on ".concat(bind));
 };
 /**
  * Listen on provided port, on all network interfaces.

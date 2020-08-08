@@ -13,12 +13,14 @@ var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/
 
 var _model = _interopRequireDefault(require("../models/model"));
 
-var messagesModel = new _model["default"]('messages');
+var _notify = require("../notify");
+
+var messagesModel = new _model.default('messages');
 
 var messagesPage = /*#__PURE__*/function () {
-  var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(req, res) {
+  var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(req, res) {
     var data;
-    return _regenerator["default"].wrap(function _callee$(_context) {
+    return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -57,14 +59,14 @@ var messagesPage = /*#__PURE__*/function () {
 exports.messagesPage = messagesPage;
 
 var addMessage = /*#__PURE__*/function () {
-  var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(req, res) {
-    var _req$body, name, message, columns, values, data;
+  var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(req, res) {
+    var _req$body, name, message, token, columns, values, data, tokens, notificationData;
 
-    return _regenerator["default"].wrap(function _callee2$(_context2) {
+    return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _req$body = req.body, name = _req$body.name, message = _req$body.message;
+            _req$body = req.body, name = _req$body.name, message = _req$body.message, token = _req$body.token;
             columns = 'name, message';
             values = "'".concat(name, "', '").concat(message, "'");
             _context2.prev = 3;
@@ -73,25 +75,31 @@ var addMessage = /*#__PURE__*/function () {
 
           case 6:
             data = _context2.sent;
+            tokens = [token];
+            notificationData = {
+              title: 'New message',
+              body: message
+            };
+            (0, _notify.sendNotificationToClient)(tokens, notificationData);
             res.status(200).json({
               messages: data.rows
             });
-            _context2.next = 13;
+            _context2.next = 16;
             break;
 
-          case 10:
-            _context2.prev = 10;
+          case 13:
+            _context2.prev = 13;
             _context2.t0 = _context2["catch"](3);
             res.status(200).json({
               messages: _context2.t0.stack
             });
 
-          case 13:
+          case 16:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[3, 10]]);
+    }, _callee2, null, [[3, 13]]);
   }));
 
   return function addMessage(_x3, _x4) {

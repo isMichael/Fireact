@@ -13,7 +13,7 @@ var _dotenv = _interopRequireDefault(require("dotenv"));
 
 var _settings = require("../settings");
 
-_dotenv["default"].config();
+_dotenv.default.config();
 
 var pool = new _pg.Pool({
   connectionString: _settings.connectionString

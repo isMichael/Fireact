@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.default = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -19,7 +19,7 @@ var _pool = require("./pool");
 
 var Model = /*#__PURE__*/function () {
   function Model(table) {
-    (0, _classCallCheck2["default"])(this, Model);
+    (0, _classCallCheck2.default)(this, Model);
     this.pool = _pool.pool;
     this.table = table;
     this.pool.on('error', function (err, client) {
@@ -27,12 +27,12 @@ var Model = /*#__PURE__*/function () {
     });
   }
 
-  (0, _createClass2["default"])(Model, [{
+  (0, _createClass2.default)(Model, [{
     key: "select",
     value: function () {
-      var _select = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(columns, clause) {
+      var _select = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(columns, clause) {
         var query;
-        return _regenerator["default"].wrap(function _callee$(_context) {
+        return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -57,9 +57,9 @@ var Model = /*#__PURE__*/function () {
   }, {
     key: "insertWithReturn",
     value: function () {
-      var _insertWithReturn = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(columns, values) {
+      var _insertWithReturn = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2(columns, values) {
         var query;
-        return _regenerator["default"].wrap(function _callee2$(_context2) {
+        return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -85,4 +85,4 @@ var Model = /*#__PURE__*/function () {
 }();
 
 var _default = Model;
-exports["default"] = _default;
+exports.default = _default;

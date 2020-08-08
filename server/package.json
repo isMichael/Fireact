@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "build": "babel ./src --out-dir build",
     "start": "npm run runQuery && node ./build/bin/www",
     "startdev": "nodemon --exec babel-node ./src/bin/www",
     "lint": "./node_modules/.bin/eslint ./src",
@@ -10,7 +11,7 @@
     "postpretty": "yarn lint --fix",
     "test": "nyc --reporter=html --reporter=text --reporter=lcov mocha -r @babel/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "runQuery": "babel-node ./src/utils/runQuery"
+    "runQuery": "node ./build/utils/runQuery"
   },
   "dependencies": {
     "axios": "^0.19.2",
