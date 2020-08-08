@@ -17,6 +17,6 @@ var indexRouter = _express.default.Router();
 
 indexRouter.get('/messages', _controllers.messagesPage);
 indexRouter.post('/messages', _middleware.modifyMessage, _middleware.performAsyncAction, _controllers.addMessage);
-indexRouter.post('registerToken', _controllers.registerToken);
+indexRouter.post('/registerToken', _controllers.registerToken);
 var _default = indexRouter;
 exports.default = _default;
