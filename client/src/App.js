@@ -13,7 +13,7 @@ import "./App.scss";
 import { Messaging } from "./Messaging";
 import { requestFirebaseNotificationPermission } from "./firebaseInit";
 
-axios.defaults.baseURL = "http://localhost:5000/v1";
+axios.defaults.baseURL = "https://chat-mb.herokuapp.com/v1";
 
 const App = () => {
   const [token, setToken] = React.useState("");
